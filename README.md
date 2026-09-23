@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ts-project-template
 
-## Getting Started
+Template de départ TwelveLab12 pour un nouveau projet Next.js/TypeScript : outillage qualité déjà
+câblé (TypeScript strict, ESLint, Prettier, Husky, Vitest, CI), Tailwind CSS v4 + shadcn/ui sur
+**Radix UI**.
 
-First, run the development server:
+## Utilisation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+gh repo create <org>/<nom-du-projet> --public --template TwelveLab12/ts-project-template
+git clone git@github.com:<org>/<nom-du-projet>.git
+cd <nom-du-projet>
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Puis :
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Mettre à jour `package.json` (`name`), `README.md` et `CLAUDE.md` (section "Project") avec le
+   contenu réel du nouveau projet.
+2. Vérifier `pnpm typecheck && pnpm lint:ci && pnpm test && pnpm build` avant le premier commit.
+3. Ajouter les dépendances propres au projet (ex : `zod`, `zustand` — volontairement absentes du
+   template, voir `docs/dependencies.md`).
+4. Renommer/compléter `docs/adr/0001-record-architecture-decisions.md` reste valable tel quel ;
+   ajouter les ADR spécifiques au nouveau projet à partir de `0002`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Ce que contient le template
 
-## Learn More
+- Next.js (App Router) + TypeScript strict, voir `tsconfig.json`.
+- ESLint flat config (`next/core-web-vitals` + `next/typescript`) + convention `_`-préfixe pour les
+  variables intentionnellement inutilisées, voir `CLAUDE.md`.
+- Prettier + `prettier-plugin-tailwindcss`.
+- Husky + lint-staged (`pre-commit`).
+- Vitest + Testing Library, avec un test de smoke (`src/app/page.test.tsx`) qui prouve que la
+  chaîne fonctionne.
+- Tailwind CSS v4 + shadcn/ui initialisé sur Radix UI (composant `button` fourni en exemple).
+- CI GitHub Actions (`typecheck` → `lint:ci` → `test` → `build`).
+- `docs/adr/` amorcé, `docs/dependencies.md`.
 
-To learn more about Next.js, take a look at the following resources:
+## Commandes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm dev            # serveur de dev (Turbopack)
+pnpm build           # build de production
+pnpm lint:ci          # eslint --max-warnings=0
+pnpm typecheck        # next typegen && tsc --noEmit
+pnpm test            # vitest run
+pnpm format          # prettier --write .
+```
