@@ -46,3 +46,7 @@ pnpm typecheck        # next typegen && tsc --noEmit
 pnpm test            # vitest run
 pnpm format          # prettier --write .
 ```
+
+## Licence
+
+Code sous [licence MIT](LICENSE) : réutilisable librement, en conservant la mention de copyright.
